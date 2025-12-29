@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Si Mc Shane</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1c0d4f, #0d001a);
+  color: #fff;
+  position: relative;
+}
+
+/* FLOATING HEARTS - CSS ONLY (NO EMOJI LAG) */
+.floating-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #7c4dff; /* PURPLE TO MATCH DESIGN */
+  transform: rotate(45deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-heart::before,
+.floating-heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #7c4dff; /* PURPLE TO MATCH DESIGN */
+  border-radius: 50%;
+}
+
+.floating-heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.floating-heart::after {
+  top: 0;
+  left: -10px;
+}
+
+/* Different heart colors - ALL MATCHING OUR DESIGN */
+.floating-heart.blue {
+  background: #4db8ff;
+}
+.floating-heart.blue::before,
+.floating-heart.blue::after {
+  background: #4db8ff;
+}
+
+.floating-heart.purple {
+  background: #b88fff;
+}
+.floating-heart.purple::before,
+.floating-heart.purple::after {
+  background: #b88fff;
+}
+
+.floating-heart.pink {
+  background: #7c4dff; /* Same purple theme */
+}
+.floating-heart.pink::before,
+.floating-heart.pink::after {
+  background: #7c4dff;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) rotate(45deg) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(90vh) rotate(45deg) scale(1);
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px) rotate(45deg) scale(0);
+    opacity: 0;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+/* TOP HEADER - Naks pinili mo ako? */
+.top-header {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 
+    0 0 10px #7c4dff, /* PURPLE TO MATCH DESIGN */
+    0 0 20px #b88fff, 
+    0 0 30px #4db8ff;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 15;
+  letter-spacing: 1px;
+  animation: topHeaderPulse 3s infinite alternate;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.top-header.hide {
+  opacity: 0;
+  display: none;
+}
+
+@keyframes topHeaderPulse {
+  0% {
+    text-shadow: 
+      0 0 10px #7c4dff, 
+      0 0 20px #b88fff, 
+      0 0 30px #4db8ff;
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 
+      0 0 15px #7c4dff, 
+      0 0 30px #b88fff, 
+      0 0 45px #4db8ff;
+    transform: scale(1.05);
+  }
+}
+
+/* FUTRUSTIC ENVELOPE WITH HEART */
+.envelope {
+  width: 200px;
+  height: 120px;
+  background: linear-gradient(145deg, 
+    rgba(124, 77, 255, 0.9), 
+    rgba(184, 143, 255, 0.8));
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 
+    0 0 30px rgba(124, 77, 255, 0.6),
+    0 0 60px rgba(184, 143, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 20;
+  margin-top: 20px;
+}
+
+.envelope::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(145deg, 
+    rgba(77, 184, 255, 0.9), 
+    rgba(143, 206, 255, 0.8));
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border-radius: 10px 10px 0 0;
+  transition: all 0.4s ease;
+}
+
+/* HEART INSIDE ENVELOPE - PURPLE TO MATCH DESIGN */
+.envelope::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 40px;
+  height: 40px;
+  background: #b88fff; /* PURPLE TO MATCH DESIGN */
+  box-shadow: 
+    0 0 15px rgba(184, 143, 255, 0.8),
+    0 0 30px rgba(124, 77, 255, 0.6);
+  animation: heartBeat 1.5s infinite;
+}
+
+.envelope::after::before,
+.envelope::after::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #b88fff; /* PURPLE TO MATCH DESIGN */
+  border-radius: 50%;
+}
+
+.envelope::after::before {
+  top: -20px;
+  left: 0;
+}
+
+.envelope::after::after {
+  top: 0;
+  left: -20px;
+}
+
+@keyframes heartBeat {
+  0%, 100% { 
+    transform: translate(-50%, -50%) rotate(45deg) scale(1); 
+  }
+  50% { 
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.1); 
+  }
+}
+
+.envelope:hover {
+  transform: scale(1.1) translateY(-10px);
+  box-shadow: 
+    0 0 40px rgba(124, 77, 255, 0.8),
+    0 0 80px rgba(184, 143, 255, 0.6),
+    0 0 120px rgba(77, 184, 255, 0.4);
+}
+
+.envelope.open {
+  animation: envelopeOpen 0.8s forwards;
+}
+
+@keyframes envelopeOpen {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(0) rotate(20deg);
+    opacity: 0;
+    display: none;
+  }
+}
+
+.envelope-message {
+  font-size: 1.5em;
+  color: #fff;
+  text-shadow: 0 0 10px #7c4dff; /* PURPLE TO MATCH DESIGN */
+  margin-top: 30px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+  opacity: 0.8;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* VIDEO CONTAINER */
+.video-container {
+  display: none;
+  width: 70%;
+  max-width: 600px;
+  min-width: 300px;
+  position: relative;
+  z-index: 15;
+  margin-top: 30px;
+}
+
+.video-container.show {
+  display: block;
+  animation: videoReveal 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes videoReveal {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.8) translateY(50px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+.video-container video {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 
+    0 0 30px rgba(124, 77, 255, 0.6),
+    0 0 60px rgba(77, 184, 255, 0.4);
+  border: 2px solid rgba(124, 77, 255, 0.5);
+  display: block;
+}
+
+/* HEADER AFTER ENVELOPE - MALAKI */
+.header {
+  display: none;
+  font-size: 4em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 
+    0 0 10px #7c4dff, 
+    0 0 20px #b88fff, 
+    0 0 30px #4db8ff;
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 15;
+  animation: headerReveal 1s ease-out;
+}
+
+.header.show {
+  display: block;
+}
+
+@keyframes headerReveal {
+  0% { 
+    opacity: 0; 
+    transform: translateY(-50px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .top-header {
+    font-size: 1.8em;
+    margin-bottom: 30px;
+  }
+  
+  .envelope {
+    width: 150px;
+    height: 90px;
+  }
+  
+  .envelope::after {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .envelope::after::before,
+  .envelope::after::after {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .envelope::after::before {
+    top: -15px;
+  }
+  
+  .envelope::after::after {
+    left: -15px;
+  }
+  
+  .header {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+  }
+  
+  .video-container {
+    width: 90%;
+  }
+  
+  .envelope-message {
+    font-size: 1.2em;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- TOP HEADER - Naks pinili mo ako? -->
+  <div class="top-header" id="topHeader">
+    Naks pinili mo ako?
+  </div>
+  
+  <!-- ENVELOPE WITH HEART -->
+  <div class="envelope" id="envelope"></div>
+  
+  <div class="envelope-message" id="envelopeMessage">
+    PARA SAYO
+  </div>
+  
+  <!-- HEADER AFTER CLICK - Uy patay pinindot🤭 -->
+  <div class="header" id="header">
+    Uy patay pinindot🤭
+  </div>
+  
+  <!-- VIDEO CONTAINER -->
+  <div class="video-container" id="videoContainer">
+    <video id="mcVideo" autoplay loop muted playsinline>
+      <source src="vid2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<script>
+const envelope = document.getElementById('envelope');
+const envelopeMessage = document.getElementById('envelopeMessage');
+const videoContainer = document.getElementById('videoContainer');
+const video = document.getElementById('mcVideo');
+const header = document.getElementById('header');
+const topHeader = document.getElementById('topHeader');
+
+let videoStarted = false;
+let heartsInterval = null;
+
+// Create floating hearts (CSS hearts, not emoji)
+function createFloatingHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('floating-heart');
+  
+  // Random color - ALL MATCHING OUR DESIGN
+  const colors = ['', 'blue', 'purple', 'pink'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  if (color) heart.classList.add(color);
+  
+  // Random position and size
+  const size = Math.random() * 15 + 10;
+  heart.style.width = `${size}px`;
+  heart.style.height = `${size}px`;
+  heart.style.left = `${Math.random() * 100}%`;
+  
+  // Random animation
+  const duration = Math.random() * 10 + 10;
+  heart.style.animation = `floatUp ${duration}s linear forwards`;
+  
+  document.body.appendChild(heart);
+  
+  // Remove heart after animation
+  setTimeout(() => {
+    if (heart.parentNode) {
+      heart.parentNode.removeChild(heart);
+    }
+  }, duration * 1000);
+}
+
+// Start floating hearts
+function startHearts() {
+  if (heartsInterval) clearInterval(heartsInterval);
+  heartsInterval = setInterval(createFloatingHeart, 300);
+}
+
+// Stop floating hearts
+function stopHearts() {
+  if (heartsInterval) {
+    clearInterval(heartsInterval);
+    heartsInterval = null;
+  }
+}
+
+// Envelope click handler
+envelope.addEventListener('click', function() {
+  // 1. HIDE TOP HEADER
+  topHeader.classList.add('hide');
+  
+  // 2. Open envelope animation
+  envelope.classList.add('open');
+  envelopeMessage.style.display = 'none';
+  
+  // 3. Show header after envelope
+  setTimeout(() => {
+    header.classList.add('show');
+  }, 400);
+  
+  // 4. Show video
+  setTimeout(() => {
+    videoContainer.classList.add('show');
+    
+    // Start video
+    if (!videoStarted) {
+      // Try to play with sound
+      video.muted = false;
+      video.play().then(() => {
+        console.log("Video playing with sound!");
+        videoStarted = true;
+        
+        // Start floating hearts
+        startHearts();
+        
+      }).catch(error => {
+        // If autoplay with sound fails, play muted
+        console.log("Autoplay with sound failed:", error);
+        video.muted = true;
+        video.play();
+        videoStarted = true;
+        
+        // Start floating hearts
+        startHearts();
+        
+        // Show instructions to unmute
+        setTimeout(() => {
+          alert("Click the video to unmute sound!");
+        }, 1000);
+      });
+    }
+  }, 800);
+});
+
+// Allow unmuting by clicking the video
+video.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (video.muted) {
+    video.muted = false;
+    video.play();
+  }
+});
+
+// Prevent video from being paused by clicking
+video.addEventListener('click', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// Force loop if video ends
+video.addEventListener('ended', function() {
+  video.currentTime = 0;
+  video.play();
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+  stopHearts();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website ni Mc</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1c0d4f, #0d001a);
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 3.5em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 0 10px #7c4dff, 0 0 20px #b88fff, 0 0 30px #4db8ff;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+/* VIDEO CONTAINER */
+.video-container {
+  display: none;
+  width: 40%;
+  min-width: 250px;
+  max-width: 350px;
+  margin: 15px 0;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #b88fff, 0 0 40px #7c4dff;
+  position: relative;
+  z-index: 5;
+}
+
+.video-container video {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #b88fff;
+  display: block;
+}
+
+/* CHOICES CONTAINER */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  z-index: 10;
+  position: relative;
+}
+
+/* REGULAR BUTTONS */
+.choice {
+  padding: 15px 25px;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(145deg, rgba(70,0,130,0.8), rgba(120,50,255,0.6));
+  color: #fff;
+  box-shadow: 0 0 8px rgba(120,50,255,0.5), 0 0 20px rgba(120,50,255,0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 15;
+}
+
+.choice:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px #b88fff, 0 0 50px #7c4dff;
+}
+
+/* SPECIAL BUTTON - Wala sa dalawa */
+#trickyBtn {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255,100,0,0.8), rgba(255,150,50,0.6));
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#trickyBtn:hover {
+  background: linear-gradient(145deg, rgba(255,150,0,0.9), rgba(255,200,50,0.7));
+  transform: scale(1.05);
+}
+
+#trickyBtn.moving {
+  position: fixed;
+  z-index: 100;
+  animation: moveAnimation 0.6s ease-out;
+}
+
+/* ANIMATIONS */
+@keyframes moveAnimation {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.video-container.show {
+  display: block;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2em; margin-bottom: 15px; }
+  .video-container { width: 70%; max-width: 280px; }
+  .choices { max-width: 320px; gap: 15px; }
+  .choice { padding: 12px 20px; font-size: 1.1em; }
+  
+  #trickyBtn.moving {
+    padding: 12px 20px;
+    font-size: 1em;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Anong mas gusto mo?</h1>
+  
+  <div class="video-container" id="videoContainer">
+    <video id="funVideo" autoplay loop muted playsinline>
+      <source src="vid1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="choices">
+    <div class="choice" onclick="window.location.href='page1.html'">Si Mc Shane</div>
+    <div class="choice" onclick="window.location.href='page2.html'">Si Gianan</div>
+    <div class="choice" id="trickyBtn">Wala sa dalawa</div>
+  </div>
+</div>
+
+<script>
+const trickyBtn = document.getElementById('trickyBtn');
+const videoContainer = document.getElementById('videoContainer');
+const video = document.getElementById('funVideo');
+
+let videoStarted = false;
+let moveCount = 0;
+
+// Function to move button to random position
+function moveButtonToRandomPosition() {
+  // Add moving animation class
+  trickyBtn.classList.add('moving');
+  
+  // Remove animation class after animation completes
+  setTimeout(() => {
+    trickyBtn.classList.remove('moving');
+  }, 600);
+  
+  // Get button dimensions
+  const buttonWidth = trickyBtn.offsetWidth;
+  const buttonHeight = trickyBtn.offsetHeight;
+  
+  // Get viewport dimensions
+  const maxX = window.innerWidth - buttonWidth - 20;
+  const maxY = window.innerHeight - buttonHeight - 20;
+  
+  // Calculate random position with boundaries (keep it within viewport)
+  let randomX, randomY;
+  
+  // Different positioning logic based on device
+  if (window.innerWidth < 768) { // Mobile
+    // For mobile, keep button more accessible (not too far)
+    randomX = Math.max(20, Math.random() * (maxX * 0.8));
+    randomY = Math.max(20, Math.random() * (maxY * 0.8));
+  } else { // Desktop
+    // For desktop, can move anywhere
+    randomX = Math.max(20, Math.random() * maxX);
+    randomY = Math.max(20, Math.random() * maxY);
+  }
+  
+  // Apply new position
+  trickyBtn.style.position = 'fixed';
+  trickyBtn.style.left = `${randomX}px`;
+  trickyBtn.style.top = `${randomY}px`;
+  trickyBtn.style.zIndex = '100';
+}
+
+// Function to start video (only once)
+function startVideo() {
+  if (!videoStarted) {
+    videoContainer.classList.add('show');
+    
+    // Try to play with sound
+    video.muted = false;
+    video.play().then(() => {
+      console.log("Video playing with sound");
+    }).catch(error => {
+      // If autoplay with sound fails, play muted
+      console.log("Autoplay with sound failed, playing muted:", error);
+      video.muted = true;
+      video.play();
+      
+      // Show message for user to unmute
+      setTimeout(() => {
+        alert("Click the video to unmute sound!");
+      }, 500);
+    });
+    
+    videoStarted = true;
+    
+    // Change button text
+    trickyBtn.textContent = "Ayoko nga!";
+  }
+}
+
+// Main click handler
+trickyBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  
+  // Start video on first click
+  startVideo();
+  
+  // Move button to random position on every click
+  moveButtonToRandomPosition();
+  
+  // Optional: Change color slightly on each move
+  moveCount++;
+  if (moveCount % 3 === 0) {
+    const hue = Math.random() * 60 + 20; // Orange to yellow range
+    trickyBtn.style.background = `linear-gradient(145deg, rgba(255,${Math.floor(hue*2)},0,0.8), rgba(255,${Math.floor(hue*3)},50,0.6))`;
+  }
+});
+
+// Video click to unmute
+video.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (video.muted) {
+    video.muted = false;
+    video.play();
+  }
+});
+
+// Handle window resize - keep button within bounds
+window.addEventListener('resize', function() {
+  if (videoStarted && trickyBtn.style.position === 'fixed') {
+    const buttonWidth = trickyBtn.offsetWidth;
+    const buttonHeight = trickyBtn.offsetHeight;
+    const maxX = window.innerWidth - buttonWidth - 20;
+    const maxY = window.innerHeight - buttonHeight - 20;
+    
+    let currentX = parseInt(trickyBtn.style.left) || 0;
+    let currentY = parseInt(trickyBtn.style.top) || 0;
+    
+    // Adjust if out of bounds
+    if (currentX > maxX) currentX = maxX;
+    if (currentY > maxY) currentY = maxY;
+    
+    trickyBtn.style.left = `${Math.max(20, currentX)}px`;
+    trickyBtn.style.top = `${Math.max(20, currentY)}px`;
+  }
+});
+
+// Optional: Allow clicking anywhere else to close video? (kung gusto mo)
+// document.addEventListener('click', function(e) {
+//   if (videoStarted && !videoContainer.contains(e.target) && e.target !== trickyBtn) {
+//     videoContainer.classList.remove('show');
+//     video.pause();
+//     videoStarted = false;
+    
+//     // Reset button
+//     trickyBtn.textContent = "Wala sa dalawa";
+//     trickyBtn.style.position = '';
+//     trickyBtn.style.left = '';
+//     trickyBtn.style.top = '';
+//     trickyBtn.style.zIndex = '';
+//     trickyBtn.style.background = '';
+//   }
+// });
+</script>
+</body>
+</html>
