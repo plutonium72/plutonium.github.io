@@ -139,6 +139,111 @@ h1 {
     font-size: 1em;
   }
 }
+
+/* CREDITS STYLES */
+.credits {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.credits-container {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 12px 25px;
+  border-radius: 50px;
+  border: 1px solid rgba(124, 77, 255, 0.3);
+  box-shadow: 
+    0 0 15px rgba(124, 77, 255, 0.3),
+    0 0 30px rgba(77, 184, 255, 0.2),
+    inset 0 0 10px rgba(124, 77, 255, 0.1);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: creditsGlow 3s infinite alternate;
+}
+
+@keyframes creditsGlow {
+  0% {
+    box-shadow: 
+      0 0 10px rgba(124, 77, 255, 0.2),
+      0 0 20px rgba(77, 184, 255, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 0 15px rgba(124, 77, 255, 0.4),
+      0 0 30px rgba(77, 184, 255, 0.2),
+      0 0 45px rgba(184, 143, 255, 0.1);
+  }
+}
+
+.credits-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1em;
+  letter-spacing: 1px;
+}
+
+.copyright {
+  color: #7c4dff;
+  font-size: 1.2em;
+  text-shadow: 0 0 8px #7c4dff;
+  animation: copyrightPulse 2s infinite;
+}
+
+@keyframes copyrightPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.name {
+  color: #fff;
+  text-shadow: 0 0 5px #b88fff;
+  font-weight: 500;
+}
+
+.year {
+  color: #4db8ff;
+  font-size: 0.9em;
+  opacity: 0.8;
+  text-shadow: 0 0 5px #4db8ff;
+}
+
+/* Responsive adjustments for credits */
+@media (max-width: 768px) {
+  .credits {
+    bottom: 15px;
+  }
+  
+  .credits-container {
+    padding: 10px 20px;
+    border-radius: 40px;
+    gap: 10px;
+  }
+  
+  .credits-text {
+    font-size: 0.9em;
+  }
+  
+  .year {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-height: 600px) {
+  .credits {
+    bottom: 10px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -157,6 +262,17 @@ h1 {
     <div class="choice" onclick="window.location.href='page1.html'">Si Mc Shane</div>
     <div class="choice" onclick="window.location.href='page2.html'">Si Gianan</div>
     <div class="choice" id="trickyBtn">Wala sa dalawa</div>
+  </div>
+</div>
+
+<!-- CREDITS SECTION -->
+<div class="credits">
+  <div class="credits-container">
+    <div class="credits-text">
+      <span class="copyright">©</span>
+      <span class="name">Mc Shane F. Gianan</span>
+    </div>
+    <div class="year">2739</div>
   </div>
 </div>
 
